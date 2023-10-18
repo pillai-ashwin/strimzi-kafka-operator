@@ -619,20 +619,6 @@ public class ListenersUtils {
     }
 
     /**
-     * Finds if NodePorts need to be allocated for service of type LoadBalancer
-     *
-     * @param listener  Listener for which NodePorts should be created
-     * @return          boolean value if NodePorts need to be allocated or null if not applicable
-     */
-    public static Boolean allocateLoadBalancerNodePorts(GenericKafkaListener listener)    {
-        if (listener.getType() == KafkaListenerType.LOADBALANCER) {
-            return listener.getConfiguration().getAllocateLoadBalancerNodePorts();
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Check whether we should skip the creation of the bootstrap service.
      *
      * @param listener Listener for which the createBootstrapService should be created or not.

@@ -30,7 +30,7 @@ import static java.util.Collections.emptyMap;
  * Configures Kafka listeners
  */
 @DescriptionFile
-@JsonPropertyOrder({"brokerCertChainAndKey", "ingressClass", "preferredAddressType", "externalTrafficPolicy",
+@JsonPropertyOrder({"brokerCertChainAndKey", "ingressClass", "preferredAddressType", "allocateLoadBalancerNodePorts", "externalTrafficPolicy",
     "loadBalancerSourceRanges", "bootstrap", "brokers", "ipFamilyPolicy", "ipFamilies", "createBootstrapService"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Buildable(
@@ -44,7 +44,7 @@ public class GenericKafkaListenerConfiguration implements Serializable, UnknownP
     private CertAndKeySecretSource brokerCertChainAndKey;
     private String controllerClass;
     private NodeAddressType preferredNodePortAddressType;
-    private Boolean allocateLoadBalancerNodePorts;
+    private boolean allocateLoadBalancerNodePorts = true;
     private ExternalTrafficPolicy externalTrafficPolicy;
     private List<String> loadBalancerSourceRanges;
     private List<String> finalizers;
@@ -96,7 +96,7 @@ public class GenericKafkaListenerConfiguration implements Serializable, UnknownP
             "This field is used to select the preferred address type, which is checked first. " +
             "If no address is found for this address type, the other types are checked in the default order. " +
             "This field can only be used with `nodeport` type listener.")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public NodeAddressType getPreferredNodePortAddressType() {
         return preferredNodePortAddressType;
     }
@@ -109,12 +109,12 @@ public class GenericKafkaListenerConfiguration implements Serializable, UnknownP
             "If unspecified, Kubernetes will use `true` as the default. " +
             "It may be set to `false` if the cluster loadbalancer does not rely on `NodePorts`. " +
             "This field can be used only with `loadbalancer` type listener.")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public Boolean getAllocateLoadBalancerNodePorts() {
+
+    public boolean getAllocateLoadBalancerNodePorts() {
         return allocateLoadBalancerNodePorts;
     }
 
-    public void setAllocateLoadBalancerNodePorts(Boolean allocateLoadBalancerNodePorts) {
+    public void setAllocateLoadBalancerNodePorts(boolean allocateLoadBalancerNodePorts) {
         this.allocateLoadBalancerNodePorts = allocateLoadBalancerNodePorts;
     }
 

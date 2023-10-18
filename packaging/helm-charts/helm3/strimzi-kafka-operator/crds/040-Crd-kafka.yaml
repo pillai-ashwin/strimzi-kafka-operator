@@ -293,6 +293,9 @@ spec:
                                   - key
                                   - secretName
                                 description: Reference to the `Secret` which holds the certificate and private key pair which will be used for this listener. The certificate can optionally contain the whole chain. This field can be used only with listeners with enabled TLS encryption.
+                              allocateLoadBalancerNodePorts:
+                                type: boolean
+                                description: "Specifies whether `NodePorts` will be automatically allocated for services of type LoadBalancer. If unspecified, Kubernetes will use `true` as the default. It may be set to `false` if the cluster loadbalancer does not rely on `NodePorts`. This field can be used only with `loadbalancer` type listener."
                               externalTrafficPolicy:
                                 type: string
                                 enum:

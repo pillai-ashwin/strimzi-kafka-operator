@@ -274,8 +274,8 @@ public class ListenersValidator {
      */
     private static void validateAllocateLoadBalancerNodePorts(Set<String> errors, GenericKafkaListener listener) {
         if (!KafkaListenerType.LOADBALANCER.equals(listener.getType())
-                && listener.getConfiguration().getAllocateLoadBalancerNodePorts() != null)    {
-            errors.add("listener " + listener.getName() + " cannot configure preferredAddressType because it is not LoadBalancer based listener");
+                && !listener.getConfiguration().getAllocateLoadBalancerNodePorts())    {
+            errors.add("listener " + listener.getName() + " cannot configure allocateLoadBalancerNodePorts because it is not a LoadBalancer based listener");
         }
     }
 
