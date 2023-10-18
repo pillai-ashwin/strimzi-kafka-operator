@@ -82,6 +82,7 @@ public class ListenersValidator {
                 validateLoadBalancerSourceRanges(errors, listener);
                 validateFinalizers(errors, listener);
                 validatePreferredAddressType(errors, listener);
+                validateAllocateLoadBalancerNodePorts(errors, listener);
                 validateCreateBootstrapService(errors, listener);
 
 
@@ -262,6 +263,19 @@ public class ListenersValidator {
         if (!KafkaListenerType.NODEPORT.equals(listener.getType())
                 && listener.getConfiguration().getPreferredNodePortAddressType() != null)    {
             errors.add("listener " + listener.getName() + " cannot configure preferredAddressType because it is not NodePort based listener");
+        }
+    }
+
+    /**
+     * Validates that allocateLoadBalancerNodePorts is used only with LoadBalancer type listener
+     *
+     * @param errors    List where any found errors will be added
+     * @param listener  Listener which needs to be validated
+     */
+    private static void validateAllocateLoadBalancerNodePorts(Set<String> errors, GenericKafkaListener listener) {
+        if (!KafkaListenerType.LOADBALANCER.equals(listener.getType())
+                && listener.getConfiguration().getAllocateLoadBalancerNodePorts() != null)    {
+            errors.add("listener " + listener.getName() + " cannot configure preferredAddressType because it is not LoadBalancer based listener");
         }
     }
 

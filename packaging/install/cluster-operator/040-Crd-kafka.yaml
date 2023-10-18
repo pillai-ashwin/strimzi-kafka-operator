@@ -385,6 +385,9 @@ spec:
                             createBootstrapService:
                               type: boolean
                               description: Whether to create the bootstrap service or not. The bootstrap service is created by default (if not specified differently). This field can be used with the `loadBalancer` type listener.
+                            allocateLoadBalancerNodePorts:
+                              type: boolean
+                              description: "Specifies whether `NodePorts` will be automatically allocated for services of type LoadBalancer. If unspecified, Kubernetes will use `true` as the default. It may be set to `false` if the cluster loadbalancer does not rely on `NodePorts`. This field can be used only with `loadbalancer` type listener."
                             class:
                               type: string
                               description: "Configures a specific class for `Ingress` and `LoadBalancer` that defines which controller will be used. This field can only be used with `ingress` and `loadbalancer` type listeners. If not specified, the default controller is used. For an `ingress` listener, set the `ingressClassName` property in the `Ingress` resources. For a `loadbalancer` listener, set the `loadBalancerClass` property  in the `Service` resources."

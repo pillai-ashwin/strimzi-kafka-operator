@@ -44,6 +44,7 @@ public class GenericKafkaListenerConfiguration implements Serializable, UnknownP
     private CertAndKeySecretSource brokerCertChainAndKey;
     private String controllerClass;
     private NodeAddressType preferredNodePortAddressType;
+    private Boolean allocateLoadBalancerNodePorts;
     private ExternalTrafficPolicy externalTrafficPolicy;
     private List<String> loadBalancerSourceRanges;
     private List<String> finalizers;
@@ -57,7 +58,6 @@ public class GenericKafkaListenerConfiguration implements Serializable, UnknownP
     private Boolean createBootstrapService = true;
 
     private Map<String, Object> additionalProperties = new HashMap<>(0);
-
     @Description("Reference to the `Secret` which holds the certificate and private key pair which will be used for this listener. " +
             "The certificate can optionally contain the whole chain. " +
             "This field can be used only with listeners with enabled TLS encryption.")
@@ -103,6 +103,19 @@ public class GenericKafkaListenerConfiguration implements Serializable, UnknownP
 
     public void setPreferredNodePortAddressType(NodeAddressType preferredNodePortAddressType) {
         this.preferredNodePortAddressType = preferredNodePortAddressType;
+    }
+
+    @Description("Specifies whether `NodePorts` will be automatically allocated for services of type LoadBalancer. " +
+            "If unspecified, Kubernetes will use `true` as the default. " +
+            "It may be set to `false` if the cluster loadbalancer does not rely on `NodePorts`. " +
+            "This field can be used only with `loadbalancer` type listener.")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public Boolean getAllocateLoadBalancerNodePorts() {
+        return allocateLoadBalancerNodePorts;
+    }
+
+    public void setAllocateLoadBalancerNodePorts(Boolean allocateLoadBalancerNodePorts) {
+        this.allocateLoadBalancerNodePorts = allocateLoadBalancerNodePorts;
     }
 
     @Description("Specifies whether the service routes external traffic to node-local or cluster-wide endpoints. " +
